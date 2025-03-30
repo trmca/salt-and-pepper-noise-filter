@@ -6,14 +6,14 @@ module selectMedian (
     output logic [7:0] median
 );
 
-    logic [7:0] inputArray [8:0];
+    logic [7:0] initialArray [8:0];
     logic [7:0] sortedArray [8:0];
     logic [7:0] ppl1 [8:0], ppl2 [8:0], ppl3 [8:0], ppl4 [8:0], ppl5 [8:0], ppl6 [8:0], ppl7 [8:0], ppl8 [8:0];
     logic [7:0] stg1_out[8:0], stg2_out[8:0], stg3_out[8:0], stg4_out[8:0], stg5_out[8:0], stg6_out[8:0], stg7_out[8:0], stg8_out[8:0], stg9_out[8:0];
     //pipelined so that module can output one pixel for each clock cycle    
 
     always_ff @(posedge clk or posedge rst) begin
-        if (rst) 
+        if (rst) begin
             ppl1 = '{8'b00000000, 8'b00000000, 8'b00000000, 8'b00000000, 8'b00000000, 8'b00000000, 8'b00000000, 8'b00000000, 8'b00000000};
             ppl2 = '{8'b00000000, 8'b00000000, 8'b00000000, 8'b00000000, 8'b00000000, 8'b00000000, 8'b00000000, 8'b00000000, 8'b00000000};
             ppl3 = '{8'b00000000, 8'b00000000, 8'b00000000, 8'b00000000, 8'b00000000, 8'b00000000, 8'b00000000, 8'b00000000, 8'b00000000};
@@ -24,7 +24,8 @@ module selectMedian (
             ppl8 = '{8'b00000000, 8'b00000000, 8'b00000000, 8'b00000000, 8'b00000000, 8'b00000000, 8'b00000000, 8'b00000000, 8'b00000000};
             initialArray = '{8'b00000000, 8'b00000000, 8'b00000000, 8'b00000000, 8'b00000000, 8'b00000000, 8'b00000000, 8'b00000000, 8'b00000000};
             sortedArray = '{8'b00000000, 8'b00000000, 8'b00000000, 8'b00000000, 8'b00000000, 8'b00000000, 8'b00000000, 8'b00000000, 8'b00000000};
-        else
+        end
+        else begin
             initialArray[0] <= px0;
             initialArray[1] <= px1;
             initialArray[2] <= px2;
@@ -43,6 +44,7 @@ module selectMedian (
             ppl7 <= stg7_out;
             ppl8 <= stg8_out;
             sortedArray <= stg9_out;
+        end
     end
 
     //sorting stage 1
@@ -52,28 +54,28 @@ module selectMedian (
         
         workingArray = initialArray;
         
-        if workingArray[1] < workingArray[0] begin
+        if (workingArray[1] < workingArray[0]) begin
             temp1 = workingArray[0];
             temp2 = workingArray[1];
             workingArray[0] = temp2;
             workingArray[1] = temp1;
         end
         
-        if workingArray[3] < workingArray[2] begin
+        if (workingArray[3] < workingArray[2]) begin
             temp1 = workingArray[2];
             temp2 = workingArray[3];
             workingArray[2] = temp2;
             workingArray[3] = temp1;
         end
 
-        if workingArray[5] < workingArray[4] begin
+        if (workingArray[5] < workingArray[4]) begin
             temp1 = workingArray[4];
             temp2 = workingArray[5];
             workingArray[4] = temp2;
             workingArray[5] = temp1;
         end
         
-        if workingArray[7] < workingArray[6] begin
+        if (workingArray[7] < workingArray[6]) begin
             temp1 = workingArray[6];
             temp2 = workingArray[7];
             workingArray[6] = temp2;
@@ -90,28 +92,28 @@ module selectMedian (
         
         workingArray = ppl1;
         
-        if workingArray[2] < workingArray[0] begin
+        if (workingArray[2] < workingArray[0]) begin
             temp1 = workingArray[0];
             temp2 = workingArray[2];
             workingArray[0] = temp2;
             workingArray[2] = temp1;
         end
         
-        if workingArray[3] < workingArray[1] begin
+        if (workingArray[3] < workingArray[1]) begin
             temp1 = workingArray[1];
             temp2 = workingArray[3];
             workingArray[1] = temp2;
             workingArray[3] = temp1;
         end
 
-        if workingArray[6] < workingArray[4] begin
+        if (workingArray[6] < workingArray[4]) begin
             temp1 = workingArray[4];
             temp2 = workingArray[6];
             workingArray[4] = temp2;
             workingArray[6] = temp1;
         end
         
-        if workingArray[7] < workingArray[5] begin
+        if (workingArray[7] < workingArray[5]) begin
             temp1 = workingArray[5];
             temp2 = workingArray[7];
             workingArray[5] = temp2;
@@ -128,14 +130,14 @@ module selectMedian (
         
         workingArray = ppl2;
         
-        if workingArray[2] < workingArray[1] begin
+        if (workingArray[2] < workingArray[1]) begin
             temp1 = workingArray[1];
             temp2 = workingArray[2];
             workingArray[1] = temp2;
             workingArray[2] = temp1;
         end
         
-        if workingArray[6] < workingArray[5] begin
+        if (workingArray[6] < workingArray[5]) begin
             temp1 = workingArray[5];
             temp2 = workingArray[6];
             workingArray[5] = temp2;
@@ -152,28 +154,28 @@ module selectMedian (
         
         workingArray = ppl3;
         
-        if workingArray[4] < workingArray[0] begin
+        if (workingArray[4] < workingArray[0]) begin
             temp1 = workingArray[0];
             temp2 = workingArray[4];
             workingArray[0] = temp2;
             workingArray[4] = temp1;
         end
         
-        if workingArray[5] < workingArray[1] begin
+        if (workingArray[5] < workingArray[1]) begin
             temp1 = workingArray[1];
             temp2 = workingArray[5];
             workingArray[1] = temp2;
             workingArray[5] = temp1;
         end
 
-        if workingArray[6] < workingArray[2] begin
+        if (workingArray[6] < workingArray[2]) begin
             temp1 = workingArray[2];
             temp2 = workingArray[6];
             workingArray[2] = temp2;
             workingArray[6] = temp1;
         end
         
-        if workingArray[7] < workingArray[3] begin
+        if (workingArray[7] < workingArray[3]) begin
             temp1 = workingArray[3];
             temp2 = workingArray[7];
             workingArray[3] = temp2;
@@ -190,14 +192,14 @@ module selectMedian (
         
         workingArray = ppl4;
         
-        if workingArray[4] < workingArray[2] begin
+        if (workingArray[4] < workingArray[2]) begin
             temp1 = workingArray[2];
             temp2 = workingArray[4];
             workingArray[2] = temp2;
             workingArray[4] = temp1;
         end
         
-        if workingArray[5] < workingArray[3] begin
+        if (workingArray[5] < workingArray[3]) begin
             temp1 = workingArray[3];
             temp2 = workingArray[5];
             workingArray[3] = temp2;
@@ -214,28 +216,28 @@ module selectMedian (
         
         workingArray = ppl5;
         
-        if workingArray[8] < workingArray[0] begin
+        if (workingArray[8] < workingArray[0]) begin
             temp1 = workingArray[0];
             temp2 = workingArray[8];
             workingArray[0] = temp2;
             workingArray[8] = temp1;
         end
         
-        if workingArray[2] < workingArray[1] begin
+        if (workingArray[2] < workingArray[1]) begin
             temp1 = workingArray[1];
             temp2 = workingArray[2];
             workingArray[1] = temp2;
             workingArray[2] = temp1;
         end
 
-        if workingArray[4] < workingArray[3] begin
+        if (workingArray[4] < workingArray[3]) begin
             temp1 = workingArray[3];
             temp2 = workingArray[4];
             workingArray[3] = temp2;
             workingArray[4] = temp1;
         end
         
-        if workingArray[6] < workingArray[5] begin
+        if (workingArray[6] < workingArray[5]) begin
             temp1 = workingArray[5];
             temp2 = workingArray[6];
             workingArray[5] = temp2;
@@ -250,9 +252,9 @@ module selectMedian (
         logic [7:0] temp1, temp2;
         logic [7:0] workingArray [8:0];
         
-        workingArray = ppl6
+        workingArray = ppl6;
         
-        if workingArray[8] < workingArray[4] begin
+        if (workingArray[8] < workingArray[4]) begin
             temp1 = workingArray[4];
             temp2 = workingArray[8];
             workingArray[4] = temp2;
@@ -269,14 +271,14 @@ module selectMedian (
         
         workingArray = ppl7;
         
-        if workingArray[4] < workingArray[2] begin
+        if (workingArray[4] < workingArray[2]) begin
             temp1 = workingArray[2];
             temp2 = workingArray[4];
             workingArray[2] = temp2;
             workingArray[4] = temp1;
         end
         
-        if workingArray[5] < workingArray[3] begin
+        if (workingArray[5] < workingArray[3]) begin
             temp1 = workingArray[3];
             temp2 = workingArray[5];
             workingArray[3] = temp2;
@@ -293,7 +295,7 @@ module selectMedian (
         
         workingArray = ppl8;
         
-        if workingArray[4] < workingArray[3] begin
+        if (workingArray[4] < workingArray[3]) begin
             temp1 = workingArray[3];
             temp2 = workingArray[4];
             workingArray[3] = temp2;
