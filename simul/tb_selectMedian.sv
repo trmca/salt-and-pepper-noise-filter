@@ -2,16 +2,15 @@ class testArray;
 logic [7:0] array [8:0];
 logic [7:0] testMedianValue;
 
-function new();
-    rand logic [7:0] randomArray [8:0];
+function new([7:0] randomArray [8:0]);
     this.array = randomArray;
-    testMedianValue = 8b'00000000;
+    testMedianValue = 8'b00000000;
 endfunction;
 
 function simpleSort();
     logic [7:0] temp;
-    for (int i = 0; i < 8, i++) begin
-        for (int j = 0, j < 8-i, j++) begin
+    for (int i = 0; i < 8; i++) begin
+        for (int j = 0; j < 8-i; j++) begin
             if (array[j] > array[j+1]) begin
                 temp = array[j];
                 array[j] = array[j+1];
@@ -22,8 +21,8 @@ function simpleSort();
     testMedianValue = array[4];
 endfunction;
 
-function getArray();
-    return array;
+function getArray(ref logic [7:0] arr [8:0]);
+    arr = array;
 endfunction;
 
 function getMedian();
@@ -34,7 +33,7 @@ endclass;
 
 module tb_selectMedian ();
 
-param int testDepth = 49; //number of tests
+parameter int testDepth = 49; //number of tests
 
 testArray arr1;
 logic clk, rst;
@@ -42,6 +41,7 @@ logic eval;
 logic [7:0] px0, px1, px2, px3, px4, px5, px6, px7, px8;
 logic [7:0] median;
 logic [7:0] workingArray [8:0];
+logic [7:0] rndArr [8:0];
 logic [7:0] simpleSortOut [testDepth:0], dutOut [testDepth:0];
 
 //dut instantiation
@@ -67,11 +67,16 @@ always #20 clk <= ~clk;
 initial begin
     clk = 0;
     rst = 1;
-    arr1 = new();
+    
+    foreach (rndArr[i]) begin
+        rndArr[i] = $urandom & 8'hFF;
+    end
+
+    arr1 = new(rndArr);
 
     #15 rst = 0;
-    for (loop = 0; loop < testDepth+10; loop++) begin
-        workingArray = arr1.getArray();
+    for (int loop = 0; loop < testDepth+10; loop++) begin
+        arr1.getArray(workingArray);
         px0 = workingArray[0];
         px1 = workingArray[1];
         px2 = workingArray[2];
@@ -92,9 +97,18 @@ initial begin
             else
                 $display ("%b | %b | FAIL", dutOut[loop-10], simpleSortOut[loop-10]);
         end
-        #20;        
+        #20;
+        
+        foreach (rndArr[i]) begin
+            rndArr[i] = $urandom & 8'hFF;
+        end
+    
+        arr1 = new(rndArr);
+
     end
+
     #50 $finish;
+    
 end
 
 endmodule;    
