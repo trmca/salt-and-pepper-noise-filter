@@ -80,7 +80,7 @@ module selectMedian (
             workingArray[7] = temp1;
         end
 
-        stg1_out <= workingArray;
+        stg1_out = workingArray;
     end
     
     //sorting stage 2
@@ -118,7 +118,7 @@ module selectMedian (
             workingArray[7] = temp1;
         end
 
-        stg2_out <= workingArray;
+        stg2_out = workingArray;
     end
 
     //sorting stage 3
@@ -142,7 +142,7 @@ module selectMedian (
             workingArray[6] = temp1;
         end
 
-        stg3_out <= workingArray;
+        stg3_out = workingArray;
     end
     
     //sorting stage 4
@@ -180,7 +180,7 @@ module selectMedian (
             workingArray[7] = temp1;
         end
 
-        stg4_out <= workingArray;
+        stg4_out = workingArray;
     end
 
     //sorting stage 5
@@ -204,7 +204,7 @@ module selectMedian (
             workingArray[5] = temp1;
         end
 
-        stg5_out <= workingArray;
+        stg5_out = workingArray;
     end
 
     //sorting stage 6
@@ -242,7 +242,7 @@ module selectMedian (
             workingArray[6] = temp1;
         end
 
-        stg6_out <= workingArray;
+        stg6_out = workingArray;
     end
 
     //sorting stage 7
@@ -259,7 +259,7 @@ module selectMedian (
             workingArray[8] = temp1;
         end
         
-        stg7_out <= workingArray;
+        stg7_out = workingArray;
     end
 
     //sorting stage 8
@@ -283,10 +283,10 @@ module selectMedian (
             workingArray[5] = temp1;
         end
 
-        stg8_out <= workingArray;
+        stg8_out = workingArray;
     end
 
-    //sorting stage 1
+    //sorting stage 9
     always_comb begin
         logic [7:0] temp1, temp2;
         logic [7:0] workingArray [8:0];
@@ -300,11 +300,11 @@ module selectMedian (
             workingArray[4] = temp1;
         end
 
-        stg9_out <= workingArray;
+        stg9_out = workingArray;
     end
 
     always_comb begin
-        median <= sortedArray[4];
+        median = sortedArray[4];
     end
 
 endmodule;    
