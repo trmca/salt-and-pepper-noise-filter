@@ -2,7 +2,7 @@ class testArray;
 logic [7:0] array [8:0];
 logic [7:0] testMedianValue;
 
-function new([7:0] randomArray [8:0]);
+function new(input logic [7:0] randomArray [8:0]);
     this.array = randomArray;
     testMedianValue = 8'b00000000;
 endfunction;
@@ -25,22 +25,22 @@ function getArray(ref logic [7:0] arr [8:0]);
     arr = array;
 endfunction;
 
-function getMedian();
-    return testMedianValue;
+function getMedian(ref logic [7:0] median);
+    median = testMedianValue;
 endfunction;
-endclass;
+endclass
 
 
 module tb_selectMedian ();
 
-parameter int testDepth = 49; //number of tests
+parameter int testDepth = 150; //number of tests
 
 testArray arr1;
 logic clk, rst;
-logic eval;
 logic [7:0] px0, px1, px2, px3, px4, px5, px6, px7, px8;
 logic [7:0] median;
 logic [7:0] workingArray [8:0];
+logic [7:0] sortedArray [8:0];
 logic [7:0] rndArr [8:0];
 logic [7:0] simpleSortOut [testDepth:0], dutOut [testDepth:0];
 
@@ -75,7 +75,7 @@ initial begin
     arr1 = new(rndArr);
 
     #15 rst = 0;
-    for (int loop = 0; loop < testDepth+10; loop++) begin
+    for (int loop = 0; loop < testDepth+11; loop++) begin
         arr1.getArray(workingArray);
         px0 = workingArray[0];
         px1 = workingArray[1];
@@ -86,9 +86,10 @@ initial begin
         px6 = workingArray[6];
         px7 = workingArray[7];
         px8 = workingArray[8];
-        simpleSort(arr1);
-        if (loop < testDepth) begin
-            simpleSortOut[loop] = arr1.getMedian();
+        arr1.simpleSort();
+        arr1.getArray(sortedArray);
+        if (loop <= testDepth) begin
+            arr1.getMedian(simpleSortOut[loop]);
         end
         if (loop > 9) begin
             dutOut[loop-10] = median;
@@ -97,7 +98,7 @@ initial begin
             else
                 $display ("%b | %b | FAIL", dutOut[loop-10], simpleSortOut[loop-10]);
         end
-        #20;
+        #40;
         
         foreach (rndArr[i]) begin
             rndArr[i] = $urandom & 8'hFF;
@@ -111,4 +112,4 @@ initial begin
     
 end
 
-endmodule;    
+endmodule
