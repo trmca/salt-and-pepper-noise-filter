@@ -43,6 +43,8 @@ logic [7:0] workingArray [8:0];
 logic [7:0] sortedArray [8:0];
 logic [7:0] rndArr [8:0];
 logic [7:0] simpleSortOut [testDepth:0], dutOut [testDepth:0];
+int pass_counter, fail_counter;
+
 
 //dut instantiation
 selectMedian DUT (
@@ -67,6 +69,8 @@ always #20 clk <= ~clk;
 initial begin
     clk = 0;
     rst = 1;
+    pass_counter = 0;
+    fail_counter = 0;
     
     foreach (rndArr[i]) begin
         rndArr[i] = $urandom & 8'hFF;
@@ -75,7 +79,7 @@ initial begin
     arr1 = new(rndArr);
 
     #15 rst = 0;
-    for (int loop = 0; loop < testDepth+11; loop++) begin
+    for (int loop = 0; loop < testDepth+10; loop++) begin
         arr1.getArray(workingArray);
         px0 = workingArray[0];
         px1 = workingArray[1];
@@ -93,10 +97,13 @@ initial begin
         end
         if (loop > 9) begin
             dutOut[loop-10] = median;
-            if (dutOut[loop-10] == simpleSortOut[loop-10])
+            if (dutOut[loop-10] == simpleSortOut[loop-10]) begin
                 $display ("%b | %b | PASS", dutOut[loop-10], simpleSortOut[loop-10]);
-            else
+                pass_counter++;
+            end else begin
                 $display ("%b | %b | FAIL", dutOut[loop-10], simpleSortOut[loop-10]);
+                fail_counter++;
+            end
         end
         #40;
         
@@ -107,7 +114,9 @@ initial begin
         arr1 = new(rndArr);
 
     end
-
+    
+    $display ("%0d PASSED | %0d FAILED", pass_counter, fail_counter);
+    
     #50 $finish;
     
 end
