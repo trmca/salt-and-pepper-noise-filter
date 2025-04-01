@@ -6,10 +6,10 @@ module selectMedian (
     output logic [7:0] median
 );
 
-    logic [7:0] initialArray [8:0];
-    logic [7:0] sortedArray [8:0];
-    logic [7:0] ppl1 [8:0], ppl2 [8:0], ppl3 [8:0], ppl4 [8:0], ppl5 [8:0], ppl6 [8:0], ppl7 [8:0], ppl8 [8:0];
-    logic [7:0] stg1_out[8:0], stg2_out[8:0], stg3_out[8:0], stg4_out[8:0], stg5_out[8:0], stg6_out[8:0], stg7_out[8:0], stg8_out[8:0], stg9_out[8:0];
+    logic [7:0] initialArray [0:8];
+    logic [7:0] sortedArray [0:8];
+    logic [7:0] ppl1 [0:8], ppl2 [0:8], ppl3 [0:8], ppl4 [0:8], ppl5 [0:8], ppl6 [0:8], ppl7 [0:8], ppl8 [0:8];
+    logic [7:0] stg1_out[0:8], stg2_out[0:8], stg3_out[0:8], stg4_out[0:8], stg5_out[0:8], stg6_out[0:8], stg7_out[0:8], stg8_out[0:8], stg9_out[0:8];
     //pipelined so that module can output one pixel for each clock cycle    
 
     always_ff @(posedge clk or posedge rst) begin
@@ -34,7 +34,7 @@ module selectMedian (
             initialArray[5] <= px5;
             initialArray[6] <= px6;
             initialArray[7] <= px7;
-            initialArray[8] <= px0;
+            initialArray[8] <= px8;
             ppl1 <= stg1_out;
             ppl2 <= stg2_out;
             ppl3 <= stg3_out;
@@ -50,7 +50,7 @@ module selectMedian (
     //sorting stage 1
     always_comb begin
         logic [7:0] temp1, temp2;
-        logic [7:0] workingArray [8:0];
+        logic [7:0] workingArray [0:8];
         
         workingArray = initialArray;
         
@@ -88,7 +88,7 @@ module selectMedian (
     //sorting stage 2
     always_comb begin
         logic [7:0] temp1, temp2;
-        logic [7:0] workingArray [8:0];
+        logic [7:0] workingArray [0:8];
         
         workingArray = ppl1;
         
@@ -126,7 +126,7 @@ module selectMedian (
     //sorting stage 3
     always_comb begin
         logic [7:0] temp1, temp2;
-        logic [7:0] workingArray [8:0];
+        logic [7:0] workingArray [0:8];
         
         workingArray = ppl2;
         
@@ -150,7 +150,7 @@ module selectMedian (
     //sorting stage 4
     always_comb begin
         logic [7:0] temp1, temp2;
-        logic [7:0] workingArray [8:0];
+        logic [7:0] workingArray [0:8];
         
         workingArray = ppl3;
         
@@ -188,7 +188,7 @@ module selectMedian (
     //sorting stage 5
     always_comb begin
         logic [7:0] temp1, temp2;
-        logic [7:0] workingArray [8:0];
+        logic [7:0] workingArray [0:8];
         
         workingArray = ppl4;
         
@@ -212,7 +212,7 @@ module selectMedian (
     //sorting stage 6
     always_comb begin
         logic [7:0] temp1, temp2;
-        logic [7:0] workingArray [8:0];
+        logic [7:0] workingArray [0:8];
         
         workingArray = ppl5;
         
@@ -250,7 +250,7 @@ module selectMedian (
     //sorting stage 7
     always_comb begin
         logic [7:0] temp1, temp2;
-        logic [7:0] workingArray [8:0];
+        logic [7:0] workingArray [0:8];
         
         workingArray = ppl6;
         
@@ -267,7 +267,7 @@ module selectMedian (
     //sorting stage 8
     always_comb begin
         logic [7:0] temp1, temp2;
-        logic [7:0] workingArray [8:0];
+        logic [7:0] workingArray [0:8];
         
         workingArray = ppl7;
         
@@ -291,7 +291,7 @@ module selectMedian (
     //sorting stage 9
     always_comb begin
         logic [7:0] temp1, temp2;
-        logic [7:0] workingArray [8:0];
+        logic [7:0] workingArray [0:8];
         
         workingArray = ppl8;
         
@@ -309,4 +309,4 @@ module selectMedian (
         median = sortedArray[4];
     end
 
-endmodule;    
+endmodule
