@@ -1,7 +1,7 @@
 //Odd-even sorting logic that outputs median 8-bit value of 9 grayscale pixels
 
 module selectMedian (
-    input logic clk, rst,
+    input logic clk, rst, enable,
     input logic [7:0] px0, px1, px2, px3, px4, px5, px6, px7, px8,
     output logic [7:0] median
 );
@@ -51,262 +51,272 @@ module selectMedian (
     always_comb begin
         logic [7:0] temp1, temp2;
         logic [7:0] workingArray [0:8];
+        if (enable) begin
+            workingArray = initialArray;
         
-        workingArray = initialArray;
+            if (workingArray[1] < workingArray[0]) begin
+                temp1 = workingArray[0];
+                temp2 = workingArray[1];
+                workingArray[0] = temp2;
+                workingArray[1] = temp1;
+            end
         
-        if (workingArray[1] < workingArray[0]) begin
-            temp1 = workingArray[0];
-            temp2 = workingArray[1];
-            workingArray[0] = temp2;
-            workingArray[1] = temp1;
-        end
-        
-        if (workingArray[3] < workingArray[2]) begin
-            temp1 = workingArray[2];
-            temp2 = workingArray[3];
-            workingArray[2] = temp2;
-            workingArray[3] = temp1;
-        end
+            if (workingArray[3] < workingArray[2]) begin
+                temp1 = workingArray[2];
+                temp2 = workingArray[3];
+                workingArray[2] = temp2;
+                workingArray[3] = temp1;
+            end
 
-        if (workingArray[5] < workingArray[4]) begin
-            temp1 = workingArray[4];
-            temp2 = workingArray[5];
-            workingArray[4] = temp2;
-            workingArray[5] = temp1;
-        end
+            if (workingArray[5] < workingArray[4]) begin
+                temp1 = workingArray[4];
+                temp2 = workingArray[5];
+                workingArray[4] = temp2;
+                workingArray[5] = temp1;
+            end
         
-        if (workingArray[7] < workingArray[6]) begin
-            temp1 = workingArray[6];
-            temp2 = workingArray[7];
-            workingArray[6] = temp2;
-            workingArray[7] = temp1;
-        end
+            if (workingArray[7] < workingArray[6]) begin
+                temp1 = workingArray[6];
+                temp2 = workingArray[7];
+                workingArray[6] = temp2;
+                workingArray[7] = temp1;
+            end
 
-        stg1_out = workingArray;
+            stg1_out = workingArray;
+        end
     end
     
     //sorting stage 2
     always_comb begin
         logic [7:0] temp1, temp2;
         logic [7:0] workingArray [0:8];
+        if (enable) begin
+            workingArray = ppl1;
         
-        workingArray = ppl1;
+            if (workingArray[2] < workingArray[0]) begin
+                temp1 = workingArray[0];
+                temp2 = workingArray[2];
+                workingArray[0] = temp2;
+                workingArray[2] = temp1;
+            end
         
-        if (workingArray[2] < workingArray[0]) begin
-            temp1 = workingArray[0];
-            temp2 = workingArray[2];
-            workingArray[0] = temp2;
-            workingArray[2] = temp1;
-        end
-        
-        if (workingArray[3] < workingArray[1]) begin
-            temp1 = workingArray[1];
-            temp2 = workingArray[3];
-            workingArray[1] = temp2;
-            workingArray[3] = temp1;
-        end
+            if (workingArray[3] < workingArray[1]) begin
+                temp1 = workingArray[1];
+                temp2 = workingArray[3];
+                workingArray[1] = temp2;
+                workingArray[3] = temp1;
+            end
 
-        if (workingArray[6] < workingArray[4]) begin
-            temp1 = workingArray[4];
-            temp2 = workingArray[6];
-            workingArray[4] = temp2;
-            workingArray[6] = temp1;
-        end
+            if (workingArray[6] < workingArray[4]) begin
+                temp1 = workingArray[4];
+                temp2 = workingArray[6];
+                workingArray[4] = temp2;
+                workingArray[6] = temp1;
+            end
         
-        if (workingArray[7] < workingArray[5]) begin
-            temp1 = workingArray[5];
-            temp2 = workingArray[7];
-            workingArray[5] = temp2;
-            workingArray[7] = temp1;
-        end
+            if (workingArray[7] < workingArray[5]) begin
+                temp1 = workingArray[5];
+                temp2 = workingArray[7];
+                workingArray[5] = temp2;
+                workingArray[7] = temp1;
+            end
 
-        stg2_out = workingArray;
+            stg2_out = workingArray;
+        end
     end
 
     //sorting stage 3
     always_comb begin
         logic [7:0] temp1, temp2;
         logic [7:0] workingArray [0:8];
+        if (enable) begin
+            workingArray = ppl2;
         
-        workingArray = ppl2;
+            if (workingArray[2] < workingArray[1]) begin
+                temp1 = workingArray[1];
+                temp2 = workingArray[2];
+                workingArray[1] = temp2;
+                workingArray[2] = temp1;
+            end
         
-        if (workingArray[2] < workingArray[1]) begin
-            temp1 = workingArray[1];
-            temp2 = workingArray[2];
-            workingArray[1] = temp2;
-            workingArray[2] = temp1;
-        end
-        
-        if (workingArray[6] < workingArray[5]) begin
-            temp1 = workingArray[5];
-            temp2 = workingArray[6];
-            workingArray[5] = temp2;
-            workingArray[6] = temp1;
-        end
+            if (workingArray[6] < workingArray[5]) begin
+                temp1 = workingArray[5];
+                temp2 = workingArray[6];
+                workingArray[5] = temp2;
+                workingArray[6] = temp1;
+            end
 
-        stg3_out = workingArray;
+            stg3_out = workingArray;
+        end
     end
     
     //sorting stage 4
     always_comb begin
         logic [7:0] temp1, temp2;
         logic [7:0] workingArray [0:8];
+        if (enable) begin
+            workingArray = ppl3;
         
-        workingArray = ppl3;
+            if (workingArray[4] < workingArray[0]) begin
+                temp1 = workingArray[0];
+                temp2 = workingArray[4];
+                workingArray[0] = temp2;
+                workingArray[4] = temp1;
+            end
         
-        if (workingArray[4] < workingArray[0]) begin
-            temp1 = workingArray[0];
-            temp2 = workingArray[4];
-            workingArray[0] = temp2;
-            workingArray[4] = temp1;
-        end
-        
-        if (workingArray[5] < workingArray[1]) begin
-            temp1 = workingArray[1];
-            temp2 = workingArray[5];
-            workingArray[1] = temp2;
-            workingArray[5] = temp1;
-        end
+            if (workingArray[5] < workingArray[1]) begin
+                temp1 = workingArray[1];
+                temp2 = workingArray[5];
+                workingArray[1] = temp2;
+                workingArray[5] = temp1;
+            end
 
-        if (workingArray[6] < workingArray[2]) begin
-            temp1 = workingArray[2];
-            temp2 = workingArray[6];
-            workingArray[2] = temp2;
-            workingArray[6] = temp1;
-        end
+            if (workingArray[6] < workingArray[2]) begin
+                temp1 = workingArray[2];
+                temp2 = workingArray[6];
+                workingArray[2] = temp2;
+                workingArray[6] = temp1;
+            end
         
-        if (workingArray[7] < workingArray[3]) begin
-            temp1 = workingArray[3];
-            temp2 = workingArray[7];
-            workingArray[3] = temp2;
-            workingArray[7] = temp1;
-        end
+            if (workingArray[7] < workingArray[3]) begin
+                temp1 = workingArray[3];
+                temp2 = workingArray[7];
+                workingArray[3] = temp2;
+                workingArray[7] = temp1;
+            end
 
-        stg4_out = workingArray;
+            stg4_out = workingArray;
+        end
     end
 
     //sorting stage 5
     always_comb begin
         logic [7:0] temp1, temp2;
         logic [7:0] workingArray [0:8];
+        if (enable) begin
+            workingArray = ppl4;
         
-        workingArray = ppl4;
+            if (workingArray[4] < workingArray[2]) begin
+                temp1 = workingArray[2];
+                temp2 = workingArray[4];
+                workingArray[2] = temp2;
+                workingArray[4] = temp1;
+            end
         
-        if (workingArray[4] < workingArray[2]) begin
-            temp1 = workingArray[2];
-            temp2 = workingArray[4];
-            workingArray[2] = temp2;
-            workingArray[4] = temp1;
-        end
-        
-        if (workingArray[5] < workingArray[3]) begin
-            temp1 = workingArray[3];
-            temp2 = workingArray[5];
-            workingArray[3] = temp2;
-            workingArray[5] = temp1;
-        end
+            if (workingArray[5] < workingArray[3]) begin
+                temp1 = workingArray[3];
+                temp2 = workingArray[5];
+                workingArray[3] = temp2;
+                workingArray[5] = temp1;
+            end
 
-        stg5_out = workingArray;
+            stg5_out = workingArray;
+        end
     end
 
     //sorting stage 6
     always_comb begin
         logic [7:0] temp1, temp2;
         logic [7:0] workingArray [0:8];
+        if (enable) begin
+            workingArray = ppl5;
         
-        workingArray = ppl5;
+            if (workingArray[8] < workingArray[0]) begin
+                temp1 = workingArray[0];
+                temp2 = workingArray[8];
+                workingArray[0] = temp2;
+                workingArray[8] = temp1;
+            end
         
-        if (workingArray[8] < workingArray[0]) begin
-            temp1 = workingArray[0];
-            temp2 = workingArray[8];
-            workingArray[0] = temp2;
-            workingArray[8] = temp1;
-        end
-        
-        if (workingArray[2] < workingArray[1]) begin
-            temp1 = workingArray[1];
-            temp2 = workingArray[2];
-            workingArray[1] = temp2;
-            workingArray[2] = temp1;
-        end
+            if (workingArray[2] < workingArray[1]) begin
+                temp1 = workingArray[1];
+                temp2 = workingArray[2];
+                workingArray[1] = temp2;
+                workingArray[2] = temp1;
+            end
 
-        if (workingArray[4] < workingArray[3]) begin
-            temp1 = workingArray[3];
-            temp2 = workingArray[4];
-            workingArray[3] = temp2;
-            workingArray[4] = temp1;
-        end
+            if (workingArray[4] < workingArray[3]) begin
+                temp1 = workingArray[3];
+                temp2 = workingArray[4];
+                workingArray[3] = temp2;
+                workingArray[4] = temp1;
+            end
         
-        if (workingArray[6] < workingArray[5]) begin
-            temp1 = workingArray[5];
-            temp2 = workingArray[6];
-            workingArray[5] = temp2;
-            workingArray[6] = temp1;
-        end
+            if (workingArray[6] < workingArray[5]) begin
+                temp1 = workingArray[5];
+                temp2 = workingArray[6];
+                workingArray[5] = temp2;
+                workingArray[6] = temp1;
+            end
 
-        stg6_out = workingArray;
+            stg6_out = workingArray;
+        end
     end
 
     //sorting stage 7
     always_comb begin
         logic [7:0] temp1, temp2;
         logic [7:0] workingArray [0:8];
+        if (enable) begin
+            workingArray = ppl6;
         
-        workingArray = ppl6;
+            if (workingArray[8] < workingArray[4]) begin
+                temp1 = workingArray[4];
+                temp2 = workingArray[8];
+                workingArray[4] = temp2;
+                workingArray[8] = temp1;
+            end
         
-        if (workingArray[8] < workingArray[4]) begin
-            temp1 = workingArray[4];
-            temp2 = workingArray[8];
-            workingArray[4] = temp2;
-            workingArray[8] = temp1;
+            stg7_out = workingArray;
         end
-        
-        stg7_out = workingArray;
     end
 
     //sorting stage 8
     always_comb begin
         logic [7:0] temp1, temp2;
         logic [7:0] workingArray [0:8];
+        if (enable) begin
+            workingArray = ppl7;
         
-        workingArray = ppl7;
+            if (workingArray[4] < workingArray[2]) begin
+                temp1 = workingArray[2];
+                temp2 = workingArray[4];
+                workingArray[2] = temp2;
+                workingArray[4] = temp1;
+            end
         
-        if (workingArray[4] < workingArray[2]) begin
-            temp1 = workingArray[2];
-            temp2 = workingArray[4];
-            workingArray[2] = temp2;
-            workingArray[4] = temp1;
-        end
-        
-        if (workingArray[5] < workingArray[3]) begin
-            temp1 = workingArray[3];
-            temp2 = workingArray[5];
-            workingArray[3] = temp2;
-            workingArray[5] = temp1;
-        end
+            if (workingArray[5] < workingArray[3]) begin
+                temp1 = workingArray[3];
+                temp2 = workingArray[5];
+                workingArray[3] = temp2;
+                workingArray[5] = temp1;
+            end
 
-        stg8_out = workingArray;
+            stg8_out = workingArray;
+        end
     end
 
     //sorting stage 9
     always_comb begin
         logic [7:0] temp1, temp2;
         logic [7:0] workingArray [0:8];
+        if (enable) begin
+            workingArray = ppl8;
         
-        workingArray = ppl8;
-        
-        if (workingArray[4] < workingArray[3]) begin
-            temp1 = workingArray[3];
-            temp2 = workingArray[4];
-            workingArray[3] = temp2;
-            workingArray[4] = temp1;
-        end
+            if (workingArray[4] < workingArray[3]) begin
+                temp1 = workingArray[3];
+                temp2 = workingArray[4];
+                workingArray[3] = temp2;
+                workingArray[4] = temp1;
+            end
 
-        stg9_out = workingArray;
+            stg9_out = workingArray;
+        end
     end
 
     always_comb begin
-        median = sortedArray[4];
+        if (enable)
+            median = sortedArray[4];
     end
 
 endmodule

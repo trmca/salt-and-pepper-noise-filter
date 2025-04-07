@@ -36,7 +36,7 @@ module tb_selectMedian ();
     parameter int testDepth = 150; //number of tests
 
     testArray arr1;
-    logic clk, rst;
+    logic clk, rst, enable;
     logic [7:0] px0, px1, px2, px3, px4, px5, px6, px7, px8;
     logic [7:0] median;
     logic [7:0] workingArray [8:0];
@@ -50,6 +50,7 @@ module tb_selectMedian ();
     selectMedian DUT (
         .clk(clk),
         .rst(rst),
+        .enable(enable),
         .px0(px0),
         .px1(px1),
         .px2(px2),
@@ -69,6 +70,7 @@ module tb_selectMedian ();
     initial begin
         clk = 0;
         rst = 1;
+        enable = 1;
         pass_counter = 0;
         fail_counter = 0;
     
