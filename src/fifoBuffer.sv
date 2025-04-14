@@ -10,6 +10,8 @@ module fifoBuffer (
     parameter int ADDR_WIDTH = $clog2(FIFO_DEPTH);
 
     logic [7:0] mem [0:FIFO_DEPTH-1];
+    logic [7:0] out_buffer;
+    logic [7:0] out_data;
 
     //read and write pointers
     logic [ADDR_WIDTH-1:0] rd_ptr, wr_ptr;
@@ -39,15 +41,23 @@ module fifoBuffer (
         else begin
             if (rd_en) begin
                 if (rd_ptr == 8'b11111100) begin //in case rd_ptr reaches address FIFO_DEPTH-1 it goes to address 0
-                    rd_data <= mem[rd_ptr];
+                    out_data <= mem[rd_ptr];
                     rd_ptr <= 0;
                 end
                 else begin
-                    rd_data <= mem[rd_ptr];
+                    out_data <= mem[rd_ptr];
                     rd_ptr <= rd_ptr + 1;
                 end
             end
         end   
+    end
+
+    always_ff @(posedge clk) begin
+        out_buffer <= out_data;
+    end
+    
+    always_comb begin
+        rd_data = out_buffer;
     end
 
 endmodule
