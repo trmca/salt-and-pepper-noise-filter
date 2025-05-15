@@ -4,7 +4,7 @@ parameter logic addr_width = $clog2(RAM_depth);
 module imageRAM(
     input logic clk,
     input logic wr_en, rd_en,
-    input logic [addr_width:0] wr_addr, rd_addr,
+    input logic [addr_width - 1:0] wr_addr, rd_addr,
     input logic [7:0] wr_data,
     output logic [7:0] rd_data
 );
