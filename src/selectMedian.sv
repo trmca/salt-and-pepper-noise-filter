@@ -1,19 +1,17 @@
 //Odd-even sorting logic that outputs median 8-bit value of 9 grayscale pixels
 
 module selectMedian (
-    input logic clk, rst, enable,
+    input logic clk, nres, enable,
     input logic [7:0] px0, px1, px2, px3, px4, px5, px6, px7, px8,
     output logic [7:0] median
 );
-
-    logic [7:0] initialArray [0:8];
-    logic [7:0] sortedArray [0:8];
+    logic [7:0] initialArray [0:8];   logic [7:0] sortedArray [0:8];
     logic [7:0] ppl1 [0:8], ppl2 [0:8], ppl3 [0:8], ppl4 [0:8], ppl5 [0:8], ppl6 [0:8], ppl7 [0:8], ppl8 [0:8];
     logic [7:0] stg1_out[0:8], stg2_out[0:8], stg3_out[0:8], stg4_out[0:8], stg5_out[0:8], stg6_out[0:8], stg7_out[0:8], stg8_out[0:8], stg9_out[0:8];
     //pipelined so that module can output one pixel for each clock cycle    
 
-    always_ff @(posedge clk or posedge rst) begin
-        if (rst) begin
+    always_ff @(posedge clk) begin
+        if (!nres) begin
             ppl1 = '{8'b00000000, 8'b00000000, 8'b00000000, 8'b00000000, 8'b00000000, 8'b00000000, 8'b00000000, 8'b00000000, 8'b00000000};
             ppl2 = '{8'b00000000, 8'b00000000, 8'b00000000, 8'b00000000, 8'b00000000, 8'b00000000, 8'b00000000, 8'b00000000, 8'b00000000};
             ppl3 = '{8'b00000000, 8'b00000000, 8'b00000000, 8'b00000000, 8'b00000000, 8'b00000000, 8'b00000000, 8'b00000000, 8'b00000000};
