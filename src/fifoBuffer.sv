@@ -1,6 +1,6 @@
 module fifoBuffer (
     input logic clk,
-    input logic rst,
+    input logic nres,
     input logic wr_en, rd_en,
     input logic [7:0] wr_data,
     output logic [7:0] rd_data
@@ -17,8 +17,8 @@ module fifoBuffer (
     logic [ADDR_WIDTH-1:0] rd_ptr, wr_ptr;
 
     //write operation
-    always_ff @(posedge clk or posedge rst) begin
-        if (rst)
+    always_ff @(posedge clk) begin
+        if (!nres)
             wr_ptr <= 0;
         else begin
             if (wr_en) begin
@@ -35,8 +35,8 @@ module fifoBuffer (
     end
 
     //read operation
-    always_ff @(posedge clk or posedge rst) begin
-        if (rst)
+    always_ff @(posedge clk) begin
+        if (!nres)
             rd_ptr <=0;
         else begin
             if (rd_en) begin
@@ -52,12 +52,12 @@ module fifoBuffer (
         end   
     end
 
-    always_ff @(posedge clk) begin
+/*    always_ff @(posedge clk) begin
         out_buffer <= out_data;
     end
-    
+*/    
     always_comb begin
-        rd_data = out_buffer;
+        rd_data = out_data;
     end
 
 endmodule
