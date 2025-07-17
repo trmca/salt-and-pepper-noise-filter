@@ -1,5 +1,5 @@
 parameter int RAM_depth = 256*256;
-parameter logic addr_width = $clog2(RAM_depth);
+parameter int addr_width = $clog2(RAM_depth);
 
 module imageRAM(
     input logic clk,
@@ -28,6 +28,10 @@ end
 
 always_comb begin
     rd_data = out_buffer;
+end
+
+initial begin
+    $readmemb("ram_initialization.txt", mem);
 end
 
 endmodule
